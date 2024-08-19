@@ -22,12 +22,4 @@ contract SoulstonesMulticall {
             soulstones.safeTransferFrom(msg.sender, transfers[i].recipient, transfers[i].tokenId);
         }
     }
-
-    function multicallGeneral(bytes32[] calldata data) external virtual returns (bytes[] memory results) {
-        results = new bytes[](data.length);
-        for (uint256 i = 0; i < data.length; i++) {
-            results[i] = Address.functionDelegateCall(address(this), bytes.concat(data[i]));
-        }
-        return results;
-    }
 }
