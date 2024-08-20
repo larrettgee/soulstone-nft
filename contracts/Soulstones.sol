@@ -49,14 +49,15 @@ contract Soulstones is ERC721, Ownable {
     }
 
     //Minting Function for Public
-    function mint(bytes32[] calldata proof) public payable validMint {
+    function mint(bytes32[] calldata proof, uint256 tokenId) public payable validMint {
         require(checkIsWhitelisted(proof), "You're not allowed here.");
 
         if (tokenSupply + 1 == TOKEN_LIMIT) {
             saleState = SaleState.DONE;
         }
         hasMinted[msg.sender] = true;
-        _safeMint(msg.sender, tokenSupply++);
+        _safeMint(msg.sender, tokenId);
+        tokenSupply++;
     }
 
     function checkIsWhitelisted(bytes32[] calldata proof) private view returns (bool) {

@@ -31,11 +31,11 @@ describe("SoulstonesNFT Testing", function () {
     it("Should allow whitelisted users to mint", async function () {
       const { soulstonesNFT, merkleTreeData, users } = await loadFixture(deployOneYearLockFixture);
 
-      await soulstonesNFT.connect(users.alice).mint(merkleTreeData.proofs[1], { value: ethers.parseEther("0.01") });
+      await soulstonesNFT.connect(users.alice).mint(merkleTreeData.proofs[1], 8, { value: ethers.parseEther("0.01") });
       const aliceBalance = await soulstonesNFT.balanceOf(await users.alice.getAddress());
       expect(aliceBalance).to.equal(1);
 
-      await soulstonesNFT.connect(users.bob).mint(merkleTreeData.proofs[2], { value: ethers.parseEther("0.01") });
+      await soulstonesNFT.connect(users.bob).mint(merkleTreeData.proofs[2], 9, { value: ethers.parseEther("0.01") });
       const bobBalance = await soulstonesNFT.balanceOf(await users.bob.getAddress());
       expect(bobBalance).to.equal(1);
     });
@@ -44,7 +44,9 @@ describe("SoulstonesNFT Testing", function () {
       const { soulstonesNFT, merkleTreeData, users } = await loadFixture(deployOneYearLockFixture);
 
       try {
-        await soulstonesNFT.connect(users.david).mint(merkleTreeData.proofs[3], { value: ethers.parseEther("0.01") });
+        await soulstonesNFT
+          .connect(users.david)
+          .mint(merkleTreeData.proofs[3], 10, { value: ethers.parseEther("0.01") });
       } catch (error: any) {
         expect(error.message).to.contains("You're not allowed here");
       }
@@ -62,11 +64,11 @@ describe("SoulstonesNFT Testing", function () {
       // Activate main sale
       await soulstonesNFT.toggleSale("2");
 
-      await soulstonesNFT.connect(users.alice).mint(merkleTreeData.proofs[1], { value: ethers.parseEther("0.01") });
+      await soulstonesNFT.connect(users.alice).mint(merkleTreeData.proofs[1], 8, { value: ethers.parseEther("0.01") });
       const aliceBalance = await soulstonesNFT.balanceOf(await users.alice.getAddress());
       expect(aliceBalance).to.equal(1);
 
-      await soulstonesNFT.connect(users.bob).mint(merkleTreeData.proofs[2], { value: ethers.parseEther("0.01") });
+      await soulstonesNFT.connect(users.bob).mint(merkleTreeData.proofs[2], 9, { value: ethers.parseEther("0.01") });
       const bobBalance = await soulstonesNFT.balanceOf(await users.bob.getAddress());
       expect(bobBalance).to.equal(1);
 
